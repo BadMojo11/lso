@@ -379,22 +379,37 @@ pub async fn record_recovery(params: TaskParams<'_>) -> Result<(), crate::error:
                     },
                     true,
                 );
+            //Remove comments to show LSO comments in discord webhook
+            /* START
             if let Some(dcs_grading) = track.dcs_grading {
                 e.field("DCS LSO", dcs_grading, true)
             } else {
                 e
             }
+            END */
         });
 
+        //Remove comments to use full discord embed showing pilot name, wire, lso comments, trap sheet and tacview file
+        /* START
         webhook
             .execute(&http, false, |w| {
                 w.embeds(vec![embed])
                     .add_file(&chart_path)
                     .add_file(&acmi_path)
             })
+            .await?; 
+        END */
+        
+        //Remove comments to use discord embed that only shows trap sheet and tacview file
+        //START
+        webhook
+            .execute(&http, false, |w| {
+                w.add_file(&chart_path)
+                    .add_file(&acmi_path)
+            })
             .await?;
+        //END
     }
-
     Ok(())
 }
 
